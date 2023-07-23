@@ -1,0 +1,40 @@
+{
+  "Unit": [
+    "Description",
+    "Documentation",
+    "Requires",
+    "Wants",
+    "BindsTo",
+    "Before",
+    "After",
+    "Conflicts",
+    "Condition",
+    "Assert"
+  ],
+  "Service": [
+    "Type",
+    "RemainAfterExit",
+    "PIDFile",
+    "BusName",
+    "NotifyAccess",
+    "ExecStart",
+    "ExecStartPre",
+    "ExecStartPost",
+    "ExecReload",
+    "ExecStop",
+    "ExecStopPost",
+    "RestartSec",
+    "Restart",
+    "TimeoutSec"
+  ],
+  "Install": [
+    "WantedBy",
+    "RequiredBy",
+    "Alias",
+    "Also",
+    "DefaultInstance"
+  ],
+  "": [
+    "NULL"
+  ]
+}

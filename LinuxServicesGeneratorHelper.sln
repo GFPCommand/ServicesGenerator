@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33502.453
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinuxServicesGeneratorHelper", "LinuxServicesGeneratorHelper\LinuxServicesGeneratorHelper.csproj", "{D0CDF4A6-1017-4441-B6C4-02C136606E1B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D0CDF4A6-1017-4441-B6C4-02C136606E1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0CDF4A6-1017-4441-B6C4-02C136606E1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0CDF4A6-1017-4441-B6C4-02C136606E1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0CDF4A6-1017-4441-B6C4-02C136606E1B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {25211E02-EFA3-403F-8E9E-53D148BB69B7}
+	EndGlobalSection
+EndGlobal
