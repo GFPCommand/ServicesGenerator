@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            ListViewGroup listViewGroup1 = new ListViewGroup("Unit", HorizontalAlignment.Left);
-            ListViewGroup listViewGroup2 = new ListViewGroup("Service", HorizontalAlignment.Left);
-            ListViewGroup listViewGroup3 = new ListViewGroup("Install", HorizontalAlignment.Left);
+            ListViewGroup listViewGroup4 = new ListViewGroup("Unit", HorizontalAlignment.Left);
+            ListViewGroup listViewGroup5 = new ListViewGroup("Service", HorizontalAlignment.Left);
+            ListViewGroup listViewGroup6 = new ListViewGroup("Install", HorizontalAlignment.Left);
             propsListView = new ListView();
             serviceElements = new ComboBox();
             addProp = new Button();
@@ -40,6 +40,9 @@
             label1 = new Label();
             inputValueTextBox = new TextBox();
             saveValueButton = new Button();
+            settingsPanel = new Panel();
+            previewText = new RichTextBox();
+            settingsPanel.SuspendLayout();
             SuspendLayout();
             // 
             // propsListView
@@ -86,13 +89,13 @@
             // 
             // previewListView
             // 
-            listViewGroup1.Header = "Unit";
-            listViewGroup1.Name = "unitGroup";
-            listViewGroup2.Header = "Service";
-            listViewGroup2.Name = "serviceGroup";
-            listViewGroup3.Header = "Install";
-            listViewGroup3.Name = "installGroup";
-            previewListView.Groups.AddRange(new ListViewGroup[] { listViewGroup1, listViewGroup2, listViewGroup3 });
+            listViewGroup4.Header = "Unit";
+            listViewGroup4.Name = "unitGroup";
+            listViewGroup5.Header = "Service";
+            listViewGroup5.Name = "serviceGroup";
+            listViewGroup6.Header = "Install";
+            listViewGroup6.Name = "installGroup";
+            previewListView.Groups.AddRange(new ListViewGroup[] { listViewGroup4, listViewGroup5, listViewGroup6 });
             previewListView.Location = new Point(256, 41);
             previewListView.MultiSelect = false;
             previewListView.Name = "previewListView";
@@ -104,19 +107,18 @@
             // 
             // fileGenButton
             // 
-            fileGenButton.Location = new Point(468, 196);
+            fileGenButton.Location = new Point(272, 13);
             fileGenButton.Name = "fileGenButton";
             fileGenButton.Size = new Size(90, 25);
             fileGenButton.TabIndex = 6;
             fileGenButton.Text = "Generate file";
             fileGenButton.UseVisualStyleBackColor = true;
-            fileGenButton.Visible = false;
             fileGenButton.Click += FileGenButton_Click;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(419, 54);
+            label1.Location = new Point(10, 16);
             label1.Name = "label1";
             label1.Size = new Size(69, 15);
             label1.TabIndex = 7;
@@ -124,30 +126,49 @@
             // 
             // inputValueTextBox
             // 
-            inputValueTextBox.Location = new Point(494, 51);
+            inputValueTextBox.Location = new Point(85, 13);
             inputValueTextBox.Name = "inputValueTextBox";
             inputValueTextBox.Size = new Size(100, 23);
             inputValueTextBox.TabIndex = 8;
             // 
             // saveValueButton
             // 
-            saveValueButton.Location = new Point(600, 51);
+            saveValueButton.Location = new Point(191, 13);
             saveValueButton.Name = "saveValueButton";
-            saveValueButton.Size = new Size(75, 23);
+            saveValueButton.Size = new Size(75, 25);
             saveValueButton.TabIndex = 9;
             saveValueButton.Text = "Save";
             saveValueButton.UseVisualStyleBackColor = true;
             saveValueButton.Click += SaveValueButton_Click;
+            // 
+            // settingsPanel
+            // 
+            settingsPanel.Controls.Add(previewText);
+            settingsPanel.Controls.Add(fileGenButton);
+            settingsPanel.Controls.Add(saveValueButton);
+            settingsPanel.Controls.Add(inputValueTextBox);
+            settingsPanel.Controls.Add(label1);
+            settingsPanel.Location = new Point(419, 41);
+            settingsPanel.Name = "settingsPanel";
+            settingsPanel.Size = new Size(369, 397);
+            settingsPanel.TabIndex = 10;
+            settingsPanel.Visible = false;
+            // 
+            // previewText
+            // 
+            previewText.Location = new Point(3, 42);
+            previewText.Name = "previewText";
+            previewText.ReadOnly = true;
+            previewText.Size = new Size(359, 352);
+            previewText.TabIndex = 10;
+            previewText.Text = "";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(saveValueButton);
-            Controls.Add(inputValueTextBox);
-            Controls.Add(label1);
-            Controls.Add(fileGenButton);
+            Controls.Add(settingsPanel);
             Controls.Add(previewListView);
             Controls.Add(removeProp);
             Controls.Add(addProp);
@@ -155,8 +176,9 @@
             Controls.Add(propsListView);
             Name = "Form1";
             Text = "Service Generator";
+            settingsPanel.ResumeLayout(false);
+            settingsPanel.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -170,5 +192,7 @@
         private Label label1;
         private TextBox inputValueTextBox;
         private Button saveValueButton;
+        private Panel settingsPanel;
+        private RichTextBox previewText;
     }
 }

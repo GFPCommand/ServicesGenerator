@@ -25,15 +25,15 @@
 
         public FileBuilder FileConnect()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
+            SaveFileDialog saveFileDialog = new();
 
-            openFileDialog.InitialDirectory = _path;
-            openFileDialog.Filter = "Service Files (*.service)|*.service";
-            openFileDialog.DefaultExt = "";
+            saveFileDialog.InitialDirectory = _path;
+            saveFileDialog.Filter = "Service Files (*.service)|*.service";
+            saveFileDialog.DefaultExt = "";
 
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                return new FileBuilder (openFileDialog.FileName);
+                return new FileBuilder (saveFileDialog.FileName);
             }
 
             return null;

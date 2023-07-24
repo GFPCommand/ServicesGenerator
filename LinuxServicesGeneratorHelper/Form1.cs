@@ -23,6 +23,11 @@ namespace LinuxServicesGeneratorHelper
             configuredProps.Add("[Service]");
             configuredProps.Add("");
             configuredProps.Add("[Install]");
+
+            foreach (var item in configuredProps)
+            {
+                previewText.Text += $"{item}\n";
+            }
         }
 
         private void ServiceElements_SelectedIndexChanged(object sender, EventArgs e)
@@ -58,10 +63,8 @@ namespace LinuxServicesGeneratorHelper
 
             if (previewListView.Items.Count > 0)
             {
-                fileGenButton.Visible = true;
+                settingsPanel.Visible = true;
             }
-
-
         }
 
         private void RemoveProp_Click(object sender, EventArgs e)
@@ -71,21 +74,35 @@ namespace LinuxServicesGeneratorHelper
 
             if (previewListView.Items.Count <= 0)
             {
-                fileGenButton.Visible = false;
+                settingsPanel.Visible = false;
             }
         }
 
         private void SaveValueButton_Click(object sender, EventArgs e)
         {
-            string group = $"[{previewListView.SelectedItems[0].Group}]";
-            string addingValue = $"{previewListView.SelectedItems[0].Text}={inputValueTextBox.Text}";
-
-            int val = configuredProps.IndexOf(group);
-
-            if (!configuredProps.Contains(addingValue))
+            try
             {
-                configuredProps.Insert(++val, addingValue);
+                string group = $"[{previewListView.SelectedItems[0].Group}]";
+                string addingValue = $"{previewListView.SelectedItems[0].Text}={inputValueTextBox.Text}";
+
+                int val = configuredProps.IndexOf(group);
+
+                if (!configuredProps.Contains(addingValue))
+                {
+                    configuredProps.Insert(++val, addingValue);
+                    previewText.Clear();
+                    foreach (var item in configuredProps)
+                    {
+                        previewText.Text += $"{item}\n";
+                    }
+                }
             }
+            catch (Exception)
+            {
+                MessageBox.Show("Select at least one item in preview list", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
         }
 
         private void FileGenButton_Click(object sender, EventArgs e)
