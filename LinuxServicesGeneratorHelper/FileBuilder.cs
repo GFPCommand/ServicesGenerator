@@ -16,14 +16,17 @@
 
         public void Build(List<string> selectedElements)
         {
+            File.WriteAllText(_path, string.Empty);
+
             using StreamWriter writer = new(File.OpenWrite(_path));
+
             foreach (var element in selectedElements)
             {
                 writer.WriteLine(element);
             }
         }
 
-        public FileBuilder FileConnect()
+        public FileBuilder FileConnect(out string path)
         {
             SaveFileDialog saveFileDialog = new();
 
@@ -33,8 +36,12 @@
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
+                path = saveFileDialog.FileName;
+
                 return new FileBuilder (saveFileDialog.FileName);
             }
+
+            path = saveFileDialog.FileName;
 
             return null;
         }

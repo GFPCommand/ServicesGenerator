@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            ListViewGroup listViewGroup4 = new ListViewGroup("Unit", HorizontalAlignment.Left);
-            ListViewGroup listViewGroup5 = new ListViewGroup("Service", HorizontalAlignment.Left);
-            ListViewGroup listViewGroup6 = new ListViewGroup("Install", HorizontalAlignment.Left);
+            ListViewGroup listViewGroup1 = new ListViewGroup("Unit", HorizontalAlignment.Left);
+            ListViewGroup listViewGroup2 = new ListViewGroup("Service", HorizontalAlignment.Left);
+            ListViewGroup listViewGroup3 = new ListViewGroup("Install", HorizontalAlignment.Left);
             propsListView = new ListView();
             serviceElements = new ComboBox();
             addProp = new Button();
@@ -89,13 +89,13 @@
             // 
             // previewListView
             // 
-            listViewGroup4.Header = "Unit";
-            listViewGroup4.Name = "unitGroup";
-            listViewGroup5.Header = "Service";
-            listViewGroup5.Name = "serviceGroup";
-            listViewGroup6.Header = "Install";
-            listViewGroup6.Name = "installGroup";
-            previewListView.Groups.AddRange(new ListViewGroup[] { listViewGroup4, listViewGroup5, listViewGroup6 });
+            listViewGroup1.Header = "Unit";
+            listViewGroup1.Name = "unitGroup";
+            listViewGroup2.Header = "Service";
+            listViewGroup2.Name = "serviceGroup";
+            listViewGroup3.Header = "Install";
+            listViewGroup3.Name = "installGroup";
+            previewListView.Groups.AddRange(new ListViewGroup[] { listViewGroup1, listViewGroup2, listViewGroup3 });
             previewListView.Location = new Point(256, 41);
             previewListView.MultiSelect = false;
             previewListView.Name = "previewListView";
@@ -156,6 +156,8 @@
             // 
             // previewText
             // 
+            previewText.BackColor = SystemColors.ControlLightLight;
+            previewText.BorderStyle = BorderStyle.None;
             previewText.Location = new Point(3, 42);
             previewText.Name = "previewText";
             previewText.ReadOnly = true;
@@ -167,15 +169,17 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(804, 451);
             Controls.Add(settingsPanel);
             Controls.Add(previewListView);
             Controls.Add(removeProp);
             Controls.Add(addProp);
             Controls.Add(serviceElements);
             Controls.Add(propsListView);
+            MaximizeBox = false;
             Name = "Form1";
             Text = "Service Generator";
+            Load += Form1_Load;
             settingsPanel.ResumeLayout(false);
             settingsPanel.PerformLayout();
             ResumeLayout(false);

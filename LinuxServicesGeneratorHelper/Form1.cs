@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace LinuxServicesGeneratorHelper
 {
     public partial class Form1 : Form
@@ -17,6 +19,11 @@ namespace LinuxServicesGeneratorHelper
             InitializeComponent();
 
             serviceElements.SelectedIndex = 0;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            Size = new Size(440, Height);
 
             configuredProps.Add("[Unit]");
             configuredProps.Add("");
@@ -63,6 +70,7 @@ namespace LinuxServicesGeneratorHelper
 
             if (previewListView.Items.Count > 0)
             {
+                Size = new Size(820, Height);
                 settingsPanel.Visible = true;
             }
         }
@@ -74,6 +82,7 @@ namespace LinuxServicesGeneratorHelper
 
             if (previewListView.Items.Count <= 0)
             {
+                Size = new Size(440, Height);
                 settingsPanel.Visible = false;
             }
         }
@@ -87,7 +96,7 @@ namespace LinuxServicesGeneratorHelper
 
                 int val = configuredProps.IndexOf(group);
 
-                if (!configuredProps.Contains(addingValue))
+                if (!configuredProps.Contains(addingValue) && !previewText.Text.Contains(previewListView.SelectedItems[0].Text))
                 {
                     configuredProps.Insert(++val, addingValue);
                     previewText.Clear();
@@ -101,15 +110,58 @@ namespace LinuxServicesGeneratorHelper
             {
                 MessageBox.Show("Select at least one item in preview list", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-
         }
 
         private void FileGenButton_Click(object sender, EventArgs e)
         {
             FileBuilder builder = new();
 
-            builder.FileConnect()?.Build(configuredProps);
+            string filePath = string.Empty;
+
+            string outputDataReceived = string.Empty;
+            string errorDataReceived = string.Empty;
+
+            builder.FileConnect(out filePath)?.Build(configuredProps);
+
+            if (MessageBox.Show($"File was generated and located in {filePath}\nWould you like to check this?", "Done", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+            {
+                ProcessStartInfo info = new();
+
+                info.WindowStyle = ProcessWindowStyle.Hidden;
+
+                if (OperatingSystem.IsLinux())
+                {
+                    info.FileName = "/bin/bash";
+                }
+
+                info.Arguments = $"systemd-analyze verify {filePath}";
+
+                using (Process process = new () { StartInfo = info })
+                {
+                    process.StartInfo.RedirectStandardError = true;
+                    process.StartInfo.RedirectStandardOutput = true;
+                    process.StartInfo.UseShellExecute = false;
+
+                    process.OutputDataReceived += new DataReceivedEventHandler((s, e) =>
+                    {
+                        outputDataReceived = e.Data;
+                    });
+
+                    process.ErrorDataReceived += new DataReceivedEventHandler((s, e) =>
+                    {
+                        errorDataReceived = e.Data;
+                    });
+
+                    process.Start();
+                    process.WaitForExit();
+
+                    process.BeginOutputReadLine();
+                    process.BeginErrorReadLine();
+                }
+
+                MessageBox.Show($"{outputDataReceived}");
+                MessageBox.Show($"{errorDataReceived}");
+            }
         }
     }
 }
