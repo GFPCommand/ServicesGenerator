@@ -38,12 +38,15 @@
             {
                 path = saveFileDialog.FileName;
 
-                return new FileBuilder (saveFileDialog.FileName);
+                return new FileBuilder(saveFileDialog.FileName);
             }
+            else
+            {
 
-            path = saveFileDialog.FileName;
+                path = saveFileDialog.FileName;
 
-            return null;
+                return null;
+            }
         }
     }
 }

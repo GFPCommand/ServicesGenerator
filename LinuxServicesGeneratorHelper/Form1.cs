@@ -118,50 +118,59 @@ namespace LinuxServicesGeneratorHelper
 
             string filePath = string.Empty;
 
+            builder.FileConnect(out filePath)?.Build(configuredProps);
+
+            if (string.IsNullOrEmpty(filePath))
+            {
+                return;
+            }
+
+            if (OperatingSystem.IsLinux())
+            {
+                if (MessageBox.Show($"File was generated and located in {filePath}\nWould you like to check this?", "Done", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+                {
+                    CheckServiceSyntax(filePath);
+                }
+            }
+            else MessageBox.Show($"File was generated and located in {filePath}", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void CheckServiceSyntax(string filePath)
+        {
             string outputDataReceived = string.Empty;
             string errorDataReceived = string.Empty;
 
-            builder.FileConnect(out filePath)?.Build(configuredProps);
+            ProcessStartInfo info = new();
 
-            if (MessageBox.Show($"File was generated and located in {filePath}\nWould you like to check this?", "Done", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+            info.WindowStyle = ProcessWindowStyle.Hidden;
+            info.FileName = "/bin/bash";
+            info.Arguments = $"systemd-analyze verify {filePath}";
+
+            using (Process process = new() { StartInfo = info })
             {
-                ProcessStartInfo info = new();
+                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.UseShellExecute = false;
 
-                info.WindowStyle = ProcessWindowStyle.Hidden;
-
-                if (OperatingSystem.IsLinux())
+                process.OutputDataReceived += new DataReceivedEventHandler((s, e) =>
                 {
-                    info.FileName = "/bin/bash";
-                }
+                    outputDataReceived = e.Data;
+                });
 
-                info.Arguments = $"systemd-analyze verify {filePath}";
-
-                using (Process process = new () { StartInfo = info })
+                process.ErrorDataReceived += new DataReceivedEventHandler((s, e) =>
                 {
-                    process.StartInfo.RedirectStandardError = true;
-                    process.StartInfo.RedirectStandardOutput = true;
-                    process.StartInfo.UseShellExecute = false;
+                    errorDataReceived = e.Data;
+                });
 
-                    process.OutputDataReceived += new DataReceivedEventHandler((s, e) =>
-                    {
-                        outputDataReceived = e.Data;
-                    });
+                process.Start();
+                process.WaitForExit();
 
-                    process.ErrorDataReceived += new DataReceivedEventHandler((s, e) =>
-                    {
-                        errorDataReceived = e.Data;
-                    });
-
-                    process.Start();
-                    process.WaitForExit();
-
-                    process.BeginOutputReadLine();
-                    process.BeginErrorReadLine();
-                }
-
-                MessageBox.Show($"{outputDataReceived}");
-                MessageBox.Show($"{errorDataReceived}");
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
             }
+
+            MessageBox.Show($"{outputDataReceived}");
+            MessageBox.Show($"{errorDataReceived}");
         }
     }
 }
